@@ -1,0 +1,91 @@
+version: "3.11"
+
+services:
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - rabbitmq_network
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+
+  producer:
+    build: ./producer
+    depends_on:
+      - rabbitmq
+    networks:
+      - microservices_network
+      - rabbitmq_network
+    ports:
+      - "5050:5050"
+    expose:
+      - "5050:5050"
+    restart: always
+    
+
+  consumer1:
+    build: ./consumer_one
+    depends_on:
+      - rabbitmq
+    networks:
+      - microservices_network
+      - rabbitmq_network
+    restart: always
+
+
+
+  consumer2:
+    build: ./consumer_two
+    depends_on:
+      - rabbitmq
+    networks:
+      - microservices_network
+      - rabbitmq_network
+    restart: always
+
+
+  consumer3:
+    build: ./consumer_three
+    depends_on:
+      - rabbitmq
+    networks:
+      - microservices_network
+      - rabbitmq_network
+    restart: always
+
+
+  consumer4:
+    build: ./consumer_four
+    depends_on:
+      - rabbitmq
+    networks:
+      - microservices_network
+      - rabbitmq_network
+    restart: always
+
+  mongodb:
+    image: mongo
+    container_name: "mongodb"
+    restart: always
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017:27017"
+    networks:
+      - microservices_network
+
+
+networks:
+  rabbitmq_network:
+    driver: bridge
+  microservices_network:
+    driver: bridge
+  
