@@ -22,7 +22,7 @@ You’ll be setting up a system with:
 **Postman:** For testing requests (or use cURL).
 
 
-**Database:** Choose a database (e.g., MongoDB or SQL).
+**Database:** Choose a database (MongoDB).
 
 
 
